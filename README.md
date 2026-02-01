@@ -57,9 +57,9 @@ Base64 Image Handling for profile pictures
 
 (Add your project screenshots here after uploading)
 
-<img width="1050" height="676" alt="image" src="https://github.com/user-attachments/assets/16e95fc6-1dfc-46e1-8e79-8026a7fef6b0" />
+<img width="644" height="635" alt="image" src="https://github.com/user-attachments/assets/16e95fc6-1dfc-46e1-8e79-8026a7fef6b0" />
 <img width="644" height="635" alt="image" src="https://github.com/user-attachments/assets/462196a0-a12d-4f44-8e7b-5e27e7aa9e46" />
-<img width="424" height="620" alt="image" src="https://github.com/user-attachments/assets/b4625a40-7a04-4fc3-9712-d6e8b9d9130d" />
+<img width="644" height="635" alt="image" src="https://github.com/user-attachments/assets/b4625a40-7a04-4fc3-9712-d6e8b9d9130d" />
 
 
 
@@ -74,7 +74,7 @@ Base64 Image Handling for profile pictures
 
 Clone the repository
 
-git clone https://github.com/YOUR-USERNAME/mini-bank-system.git
+git clone https://github.com/YashPro8158/minibank-sytem.git
 
 
 Open index.html in the browser
