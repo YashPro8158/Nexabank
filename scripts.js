@@ -294,6 +294,12 @@ function deductmoney() {
         document.getElementById("deductmodalboxerror").innerText = "Please enter a valid amount";
         return;
     }
+    if (deductamountinput.value > founduser.initialamount) {
+        document.getElementById('deductmodalboxerror').style.display = "block"
+        document.getElementById('deductmodalboxerror').style.color = "red"
+        document.getElementById("deductmodalboxerror").innerText = "Insufficient Balance";
+        return;
+    }
     else {
 
         document.getElementById('deductmodalboxerror').style.display = "block"
