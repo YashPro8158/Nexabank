@@ -4,6 +4,7 @@
 * {
   box-sizing: border-box;
 }
+
 :root {
   --primary: #111827;
   --secondary: #1f2937;
@@ -11,7 +12,32 @@
   --light: #f3f4f6;
   --card-bg: #ffffff;
   --radius: 16px;
-  --shadow: 0px 4px 20px rgba(0,0,0,0.10);
+  --shadow: 0px 4px 20px rgba(0, 0, 0, 0.10);
+}
+.loader{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: #f1f5f9;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+.spinner { 
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #2563eb; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 0px 15px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 body {
@@ -23,6 +49,7 @@ body {
   color: var(--primary);
   overflow-x: hidden !important;
 }
+
 /* HEADER */
 .header {
   width: 100%;
@@ -39,13 +66,16 @@ body {
 }
 
 .header img {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  margin-left: 15px;
+  margin: 10px;
   display: none;
 }
-
+.textheading{
+  display: flex;
+  align-items: center;
+}
 /* MAIN CONTAINER */
 .container {
   width: 95%;
@@ -94,7 +124,7 @@ button:hover {
 /* CARDS (Details box) */
 .detailsbox {
   width: 100%;
-  max-width: 550px;
+  max-width: 800px;
   margin: 25px auto;
   background: var(--card-bg);
   padding: 25px;
@@ -121,6 +151,10 @@ button:hover {
   background: #eef2ff;
 }
 
+.detailsbox button {
+  width: 80%;
+}
+
 /* LABEL */
 label {
   margin-top: 12px;
@@ -145,8 +179,15 @@ label {
 }
 
 @keyframes popup {
-  from { opacity: 0; transform: translate(-50%, -40%); }
-  to   { opacity: 1; transform: translate(-50%, -50%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .modalbox form input {
@@ -209,8 +250,99 @@ table tr:last-child td {
   font-weight: 600;
 }
 
+#searcherrormsgmodal {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: var(--radius);
+  display: none;
+}
+
+#toasterrormsg {
+  display: none;
+  width: 40%;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: var(--radius);
+  text-align: center;
+  height: auto;
+}
+
+#cancelsearchbtn {
+  display: block;
+}
+
+.filtersbtns {
+  width: 100%;
+  display: flex;
+}
+
+/* ===== DARK THEME ===== */
+body.dark {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+body.dark .header {
+  background: #020617;
+}
+
+
+
+body.dark button {
+  background: #1e293b;
+  color: #e5e7eb;
+}
+
+body.dark button:hover {
+  background: #334155;
+}
+
+body.dark .detailsbox h1,
+body.dark .detailsbox h2,
+body.dark label {
+  color: #000;
+}
+
+body.dark table {
+  background: #1e293b;
+  color: #e5e7eb;
+}
+
+body.dark .modalbox h1{
+  color: #1e293b;
+}
+
+#bankerloginpage {
+  display: none;
+}
+
+#adminpanel {
+  display: none;
+}
+
+.postionupdatebox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+}
+
+#updateaccountbox {
+  display: none;
+}
+
+
+#usersearchederrormsg {
+  display: none;
+}
+
 /* RESPONSIVE */
-@media (max-width: 500px) {
+@media (max-width: 700px) {
   button {
     min-width: 100%;
   }
@@ -218,17 +350,39 @@ table tr:last-child td {
   .header {
     font-size: 10px;
     padding: 16px 0;
-    flex-direction: column;
   }
 
   .detailsbox {
     padding: 18px;
   }
+
+  .userbtns {
+    flex-direction: column;
+  }
+
+  #toasterrormsg {
+    width: 80%;
+  }
+
+  .filtersbtns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .filtersbtns {
+    gap: 4px;
+  }
 }
+
 @media (max-width: 350px) {
-  .header img {
-    width: 60px;
-    height: 60px;
-    margin-left: 10px;
+
+  .userbtns {
+    flex-direction: column;
+  }
+
+  #toasterrormsg {
+    width: 80%;
   }
 }

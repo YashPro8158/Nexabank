@@ -4,17 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiniBank</title>
+    <title>NexaBank | Banking System </title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 
 <body>
     <div class="container">
+        <div class="loader" style="display:none;" id="loader">
+            <div class="spinner"></div> 
+            <h4>Loading Data........</h4>
+
+        </div>
         <!-- DashBoard Start Here -->
+        <div id="toasterrormsg"></div>
+
         <div id="dashboardsec">
             <div class="header">
-                <img  alt="user image" id="userregimagedisplay">
-                <h1 class="textheading"> MINI BANK DASHBOARD</h1>
+                <img alt="user image" id="userregimagedisplay">
+                <h1 class="textheading">
+                    <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                        <path d="M20 80V20L80 80V20" stroke="#2563eb" stroke-width="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>exaBank Dashboard
+                </h1>
             </div>
 
             <div class="btnbox">
@@ -24,6 +42,10 @@
                 <button onclick="openwithdrawmodel()"><img src="img/withdraw.svg" alt="withdraw"> Withdraw
                     Money</button>
                 <button onclick="deleteaccount()"><img src="img/delete.svg" alt="delete"> Delete Account</button>
+                <button onclick="opensearchaccountmodal()"><img src="img/search.svg" alt="search"> Search
+                    Account</button>
+                <button onclick="toggleTheme()"><img src="img/toggledarktheme.svg" alt="search" id="toggleimg"></button>
+                <!-- <button onclick="toggleTheme()" style="margin:15px;">Toggle Dark Mode</button> -->
             </div>
             <!-- deposit modal box start  -->
             <div class="modalbox" id="depositmodalbox">
@@ -31,7 +53,6 @@
                 <form action="#">
                     <div class="inputarea">
                         <input type="number" placeholder="Enter Amount" id="addamountinput">
-                        <div id="modalboxerror"></div>
                     </div>
                     <div class="btnbox">
                         <button onclick="depositmoney()">Add Money</button>
@@ -45,7 +66,6 @@
                 <form action="#">
                     <div class="inputarea">
                         <input type="number" placeholder="Enter Amount" id="deductamountinput">
-                        <div id="deductmodalboxerror"></div>
                     </div>
                     <div class="btnbox">
                         <button onclick="deductmoney()">Withdraw Money</button>
@@ -60,7 +80,6 @@
                     <div class="inputarea">
                         <input type="number" placeholder="Enter Amount" id="transferamountinput">
                         <input type="number" placeholder="Enter Recipient Account Number" id="recipientaccountnumber">
-                        <div id="transfermodalboxerror"></div>
                     </div>
                     <div class="btnbox">
                         <button onclick="transfermoney()">Transfer Money</button>
@@ -79,20 +98,27 @@
                 <input type="text" name="dbactype" id="dbactype" readonly><br>
                 <label for="dbbalance">Current Balance: </label>
                 <input type="text" name="dbbalance" id="dbbalance" readonly><br>
-                <button onclick="transanctionhistory()">View Transaction History</button>
-                <button onclick="loginpage()" style="margin: 10px 0px;">LogOut</button>
+                <button onclick="transanctionhistory()" style="margin: 10px ;">View Transaction History</button>
+                <button onclick="showupdateaccountbox()" style="margin: 10px ;">Update Account Details</button>
+                <button onclick="loginpage()" style="margin: 10px ;">LogOut</button>
             </div>
+
         </div>
         <!-- DashBoard ends Here -->
 
         <!-- Account Registration Start Here -->
         <div id="registration">
             <div class="header">
-                <h1 class="textheading">Account Registration</h1>
+                <h1 class="textheading">
+                    <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                        <path d="M20 80V20L80 80V20" stroke="#2563eb" stroke-width="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>exaBank Account Registration
+                </h1>
             </div>
 
             <div class="detailsbox">
-                <h2>Total Register Accounts is <span id="totalaccounts"></span></h2>
+                <h2 style="display: none;"><span id="totalaccounts"></span></h2>
                 <label for="userregname">Account Holder Name: </label>
                 <input type="text" name="userregname" id="userregname" required>
                 <label for="userregactype">Account Type: </label>
@@ -100,14 +126,16 @@
                     <option value="saving">Saving</option>
                     <option value="current">Current</option>
                 </select>
+                <label for="userregemail">Email Address: </label>
+                <input type="email" name="userregemail" id="userregemail" required>
                 <label for="userregpin">Create PIN(Four Digit Only): </label>
-                <input type="number" name="userregpin" id="userregpin">
+                <input type="password" name="userregpin" id="userregpin">
                 <label for="userregconfpin">Confirm PIN: </label>
-                <input type="number" name="userregconfpin" id="userregconfpin">
+                <input type="password" name="userregconfpin" id="userregconfpin">
                 <label for="userreginitialdpamount">Initial Deposit Amount: </label>
                 <input type="number" name="userreginitialdpamount" id="userreginitialdpamount" required><br>
                 <label for="userreginitialdpamount">Upload Profile Picture: </label>
-                <input type="file" name="userregprofilepic" id="userregprofilepic" required  accept="image/*"><br>
+                <input type="file" name="userregprofilepic" id="userregprofilepic" required accept="image/*"><br>
                 <button onclick="registeraccount(event)" class="">Submit</button>
                 <div id="acnumbershow">
                     <label>Your Account Number (Pls Note This Number): </label>
@@ -116,28 +144,87 @@
                 <button onclick="loginpage()" style="margin: 10px 0px;">Already Registered ? Login now</button>
             </div>
         </div>
-        <!-- Account Login Start Here -->
+        <!-- User Account Login Start Here -->
         <div id="login">
             <div class="header">
-                <h1 class="textheading">Login Account Here</h1>
+                <h1 class="textheading">
+                    <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                        <path d="M20 80V20L80 80V20" stroke="#2563eb" stroke-width="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>exaBank Login as User
+                </h1>
             </div>
             <div class="detailsbox">
-                <label for="userloginname">Account Holder Name: </label>
-                <input type="text" name="userloginname" id="userloginname" required>
-                <label for="userloginpin">Your PIN: </label>
-                <input type="number" name="userloginpin" id="userloginpin">
-                <button style="margin: 10px 0px;" onclick="accountlogin()" id="loginsubmit">Submit</button>
-                <p id="loginerror"></p>
-                <button style="margin: 10px 0px;" onclick="registerpage()">Register new account</button>
+                <label for="useremailname">User Email: </label>
+                <input type="email" name="useremailname" id="useremailname" required>
+                <label for="userloginpin">User PIN: </label>
+                <input type="password" name="userloginpin" id="userloginpin">
+                <button style="margin: 10px;" onclick="accountlogin()" id="loginsubmit">Submit</button>
+                <button style="margin: 10px;" onclick="registerpage()">Register new account</button>
+                <button style="margin: 10px;" onclick="adminpanel()">Admin Panel ( Login as banker)</button>
 
             </div>
         </div>
+
+
+        <!-- Banker Account Login Start Here -->
+        <div id="bankerloginpage">
+            <div class="header">
+                <h1 class="textheading">
+                    <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                        <path d="M20 80V20L80 80V20" stroke="#2563eb" stroke-width="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>exaBank Login as Banker
+                </h1>
+            </div>
+            <div class="detailsbox">
+                <label for="bankermailid">Banker mail id: </label>
+                <input type="text" name="bankermailid" id="bankermailid" required>
+                <label for="bankerpswd">Banker password: </label>
+                <input type="password" name="bankerpswd" id="bankerpswd">
+                <button style="margin: 10px;" onclick="bankerlogin()" id="bankerlogin">Submit</button>
+                <button style="margin: 10px;" onclick="loginpage()">Login as user</button>
+
+            </div>
+        </div>
+        <!-- admin panel page -->
+
+        <div id="adminpanel">
+            <div class="header">
+                <h1 class="textheading">
+                    <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                        <path d="M20 80V20L80 80V20" stroke="#2563eb" stroke-width="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>Admin Panel - All Registered Accounts
+                </h1>
+            </div>
+            <table style="width: 100%;" id="adminpaneltablebody">
+                <thead>
+                    <tr>
+                        <th>Account Holder Name</th>
+                        <th>Account Number</th>
+                        <th>Account Type</th>
+                        <th>Current Balance</th>
+                    </tr>
+                </thead>
+                <tbody id="adminpaneltabledata"></tbody>
+            </table>
+            <button style="margin: 10px auto; width: 50%;" onclick="loginpage()">Logout from Admin Panel</button>
+        </div>
+
         <!-- Transaction History Start Here -->
         <div id="transactions">
-            <div class="filters">
-                <h2 id="transactionsstatus"></h2>
+            <h2 id="transactionsstatus"></h2>
+            <div class="filtersbtns">
+                <h2>Filter Transactions</h2>
+                <button onclick="filtertransaction('all')" style="margin: 10px;">All</button>
+                <button onclick="filtertransaction('credit')" style="margin: 10px;">Credit</button>
+                <button onclick="filtertransaction('debit')" style="margin: 10px;">Debit</button>
+                <button onclick="downloadPdfTable()" style="margin: 10px;">Download Transactions</button>
+                <button onclick="closetransactions()" style="margin: 10px;">Close Transactions</button>
+
             </div>
-            <table style="width: 100%;">
+            <table style="width: 100%;" id="transactionshistodytable">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -149,7 +236,32 @@
             </table>
         </div>
 
+        <!-- account search here  -->
+        <div class="modalbox" id="searchaccountbox">
+            <div class="detailsbox">
+                <label for="usersearchaccnumber">Enter the Account Number to Search: </label>
+                <input type="number" name="usersearchaccnumber" id="usersearchaccnumber" required>
+                <button style="margin: 10px 0px;" id="searchaccbtn">Search Account</button>
+                <button id="cancelsearchbtn" onclick="closeSearchAccountBox()">Cancel Search</button>
+                <div id="searcherrormsgmodal">
+                    <p id="usersearchederrormsg"></p>
+                    <button id="transfermoneybtn">Transfer money</button>
+                    <button style="margin: 10px 0px;" onclick="closeSearchAccountBox()">Close</button>
+                </div>
 
+            </div>
+        </div>
+
+        <div class="detailsbox postionupdatebox" id="updateaccountbox">
+            <h2>Update Account Details</h2>
+            <label for="updateaccountname">Update Account Holder Name: </label>
+            <input type="text" name="updateaccountname" id="updateaccountname" required>
+            <label for="updateaccountpin">Update Account PIN: </label>
+            <input type="password" name="updateaccountpin" id="updateaccountpin" required>
+            <button style="margin: 10px 0px;" onclick="updateaccountdetails()">Update Details</button>
+            <button style="margin: 10px 0px;" onclick="closeupdateaccountbox()">Close</button>
+        </div>
+    </div>
     </div>
     <script src="scripts.js"></script>
 </body>
